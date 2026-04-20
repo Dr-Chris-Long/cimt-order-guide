@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIMT Apparel Order Guide — Two Things You Must Do</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1115;
+    --surface: #171a21;
+    --surface-2: #1e222b;
+    --line: #2a2f3a;
+    --text: #e8ecf1;
+    --muted: #8a93a3;
+    --accent: #ff7a2d;
+    --accent-dim: #cc5f1c;
+    --ok: #4ade80;
+    --warn: #fbbf24;
+    --danger: #f87171;
+    --link: #7dd3fc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter Tight', -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  body {
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(255, 122, 45, 0.08), transparent 50%),
+      radial-gradient(circle at 80% 100%, rgba(125, 211, 252, 0.05), transparent 50%);
+  }
+  .container { max-width: 1180px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* ---- Header ---- */
+  header { margin-bottom: 28px; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent-dim);
+    padding: 4px 10px;
+    border-radius: 3px;
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 10px;
+  }
+  .subtitle { color: var(--muted); font-size: 16px; max-width: 720px; }
+  .vendor-line { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); margin-top: 10px; }
+  .vendor-line a { color: var(--link); text-decoration: none; }
+  .vendor-line a:hover { text-decoration: underline; }
+
+  /* ---- The Two Rules Banner ---- */
+  .rules-banner {
+    background: linear-gradient(135deg, rgba(248, 113, 113, 0.10), rgba(255, 122, 45, 0.10));
+    border: 1px solid rgba(255, 122, 45, 0.4);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 32px;
+  }
+  .rules-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--danger);
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .rules {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 700px) { .rules { grid-template-columns: 1fr; } }
+  .rule {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .rule-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .rule-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 4px; letter-spacing: -0.01em; }
+  .rule-desc { font-size: 14px; color: var(--text); }
+  .rule-desc code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    background: rgba(0,0,0,0.3);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--warn);
+    font-weight: 600;
+  }
+
+  /* ---- Layout ---- */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 28px;
+  }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+  /* ---- Steps ---- */
+  .steps { display: flex; flex-direction: column; gap: 16px; }
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px 22px;
+    position: relative;
+    transition: border-color 0.15s;
+  }
+  .step.done {
+    border-color: rgba(74, 222, 128, 0.4);
+    background: linear-gradient(90deg, rgba(74, 222, 128, 0.04), transparent);
+  }
+  .step.critical {
+    border-color: rgba(255, 122, 45, 0.35);
+    background: linear-gradient(90deg, rgba(255, 122, 45, 0.04), transparent);
+  }
+  .step.critical.done {
+    border-color: rgba(74, 222, 128, 0.4);
+    background: linear-gradient(90deg, rgba(74, 222, 128, 0.04), transparent);
+  }
+  .step-header { display: flex; align-items: flex-start; gap: 14px; cursor: pointer; user-select: none; }
+  .step-num {
+    flex-shrink: 0;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    transition: all 0.15s;
+  }
+  .step.done .step-num {
+    background: var(--ok);
+    color: #0f1115;
+    border-color: var(--ok);
+  }
+  .step.critical .step-num {
+    background: var(--accent);
+    color: #0f1115;
+    border-color: var(--accent);
+  }
+  .step.critical.done .step-num {
+    background: var(--ok);
+    color: #0f1115;
+    border-color: var(--ok);
+  }
+  .step-title-block { flex: 1; min-width: 0; }
+  .step-title {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .step.critical .step-title { color: #fff; }
+  .step-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .step.critical .step-meta { color: var(--accent); font-weight: 600; }
+  .step-body {
+    margin-top: 14px;
+    padding-left: 46px;
+    color: var(--text);
+    font-size: 14.5px;
+  }
+  .step-body p { margin-bottom: 10px; }
+  .step-body ul, .step-body ol { margin: 10px 0 10px 20px; }
+  .step-body li { margin-bottom: 6px; }
+  .step-body strong { color: #fff; }
+  .step-body a.btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #0f1115;
+    padding: 10px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 13px;
+    margin: 8px 8px 4px 0;
+    transition: background 0.15s;
+  }
+  .step-body a.btn-link:hover { background: #ff9557; }
+  .step-body a.btn-secondary {
+    background: var(--surface-2);
+    color: var(--link);
+    border: 1px solid var(--line);
+    font-weight: 500;
+  }
+  .step-body a.btn-secondary:hover { background: #252a35; }
+  .step-body code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    background: var(--surface-2);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--warn);
+  }
+  .chevron {
+    color: var(--muted);
+    font-size: 12px;
+    margin-left: 10px;
+    transition: transform 0.15s;
+  }
+  .step.collapsed .step-body { display: none; }
+  .step.collapsed .chevron { transform: rotate(-90deg); }
+
+  /* Callout box inside steps */
+  .callout {
+    background: rgba(255, 122, 45, 0.08);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin: 12px 0;
+    font-size: 13.5px;
+  }
+  .callout strong { color: var(--accent); }
+
+  /* ---- Sidebar ---- */
+  .sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 20px; align-self: start; }
+  @media (max-width: 900px) { .sidebar { position: static; } }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .card-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .progress-bar {
+    height: 6px;
+    background: var(--surface-2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #ffa870);
+    transition: width 0.3s;
+    width: 0%;
+  }
+  .progress-text { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+  .progress-text span { color: var(--text); font-weight: 700; }
+
+  .checklist { display: flex; flex-direction: column; gap: 10px; }
+  .check-row {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13.5px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .check-row:last-child { border-bottom: none; }
+  .check-row input[type="checkbox"] {
+    appearance: none;
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--line);
+    border-radius: 3px;
+    background: var(--surface-2);
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .check-row input[type="checkbox"]:checked {
+    background: var(--ok);
+    border-color: var(--ok);
+  }
+  .check-row input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    top: -2px; left: 2px;
+    color: #0f1115;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .check-row label { cursor: pointer; flex: 1; }
+  .check-row.critical label::before {
+    content: "⚠ ";
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .check-row.critical label { color: #fff; font-weight: 600; }
+
+  .cost-row {
+    display: flex; justify-content: space-between;
+    font-size: 14px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .cost-row:last-of-type { border-bottom: 2px solid var(--line); margin-bottom: 8px; }
+  .cost-row.total {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 15px;
+    padding-top: 12px;
+    border-bottom: none;
+  }
+  .cost-row code {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text);
+  }
+
+  .emergency {
+    background: rgba(248, 113, 113, 0.08);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+  .emergency-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--danger);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .emergency code {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text);
+    background: rgba(0,0,0,0.3);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .reset-btn:hover { color: var(--text); border-color: var(--muted); }
+
+  /* Pulse animation for critical button */
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 122, 45, 0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(255, 122, 45, 0); }
+  }
+  .pulse { animation: pulse 2s infinite; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <span class="tag">CIMT / Order Procedure</span>
+    <h1>CIMT Apparel Order Guide</h1>
+    <p class="subtitle">Prior orders were cancelled because buyers missed two required actions. Follow this guide and your order will go through.</p>
+    <p class="vendor-line">Vendor: Deep Woods Embroidery · <a href="tel:5417737121">541-773-7121</a> · <a href="https://www.companycasuals.com/AVF/start.jsp" target="_blank" rel="noopener">companycasuals.com/AVF</a></p>
+  </header>
+
+  <!-- The two hard requirements, up top, impossible to miss -->
+  <div class="rules-banner">
+    <div class="rules-label">⚠ Two things you MUST do or your order will be cancelled</div>
+    <div class="rules">
+      <div class="rule">
+        <div class="rule-num">1</div>
+        <div>
+          <div class="rule-title">Select the ORCA OFFICIAL LOGO</div>
+          <div class="rule-desc">When you pick your item, use the dropdown and select <code>ORCA OFFICIAL LOGO</code>. This is our only approved logo. The logo is auto-added to your cart when you select it.</div>
+        </div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">2</div>
+        <div>
+          <div class="rule-title">Add the $25 S&amp;H item to your cart</div>
+          <div class="rule-desc">Shipping is <strong>not</strong> calculated at checkout. It's a separate product you have to add manually. Without it, the vendor cancels the order.</div>
+          <a href="https://www.companycasuals.com/AVF/b.jsp?id=23252841&parentId=9015989" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#0f1115;padding:8px 14px;border-radius:5px;text-decoration:none;font-weight:700;font-size:12.5px;margin-top:10px;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;">→ OPEN S&amp;H PAGE</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- ======= MAIN COLUMN: STEPS ======= -->
+    <div class="steps" id="steps-container">
+
+      <div class="step" data-step="1">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          <div class="step-title-block">
+            <div class="step-title">Open the vendor site &amp; pick a category</div>
+            <div class="step-meta">Start here</div>
+          </div>
+          <span class="chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <a class="btn-link" href="https://www.companycasuals.com/AVF/start.jsp" target="_blank" rel="noopener">Open vendor site →</a>
+          <p style="margin-top: 10px;">Or jump to a category directly:</p>
+          <a class="btn-link btn-secondary" href="https://www.companycasuals.com/AVF/b.jsp?id=125&ln=-125" target="_blank" rel="noopener">T-Shirts</a>
+          <a class="btn-link btn-secondary" href="https://www.companycasuals.com/AVF/b.jsp?id=115&ln=-115" target="_blank" rel="noopener">Polos/Knits</a>
+          <a class="btn-link btn-secondary" href="https://www.companycasuals.com/AVF/b.jsp?id=127&ln=-127" target="_blank" rel="noopener">Sweatshirts</a>
+          <a class="btn-link btn-secondary" href="https://www.companycasuals.com/AVF/b.jsp?id=126&ln=-126" target="_blank" rel="noopener">Caps</a>
+          <a class="btn-link btn-secondary" href="https://www.companycasuals.com/AVF/b.jsp?id=7794661&ln=-7794661" target="_blank" rel="noopener">Women's</a>
+          <a class="btn-link btn-secondary" href="https://www.companycasuals.com/AVF/b.jsp?id=7794660&ln=-7794660" target="_blank" rel="noopener">Tall</a>
+          <div class="callout" style="margin-top: 14px;"><strong>Sizing note:</strong> L469 Ladies Sport Tek Polo runs small. Consider sizing up.</div>
+        </div>
+      </div>
+
+      <div class="step critical" data-step="2">
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div class="step-title-block">
+            <div class="step-title">⚠ REQUIRED — Select ORCA OFFICIAL LOGO</div>
+            <div class="step-meta">Mandatory action #1 · Cannot skip</div>
+          </div>
+          <span class="chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>On the product page for your item, you'll see a <strong>logo dropdown menu</strong>. It lists logo options.</p>
+          <ol>
+            <li>Choose your size and color.</li>
+            <li><strong>Open the logo dropdown.</strong></li>
+            <li>Select <code>ORCA OFFICIAL LOGO</code> — this is the only approved option.</li>
+            <li>Add the item to your cart.</li>
+          </ol>
+          <div class="callout">
+            <strong>What this does:</strong> Selecting the logo automatically adds the logo as a separate line item in your cart. You do <strong>not</strong> need to add the logo separately. If you don't see it on the item after checkout, something went wrong — call the vendor.
+          </div>
+          <p style="font-size: 13px; color: var(--muted); margin-top: 10px;">⚠ Do <em>not</em> order "without logo" — that requires calling the vendor at <code>541-773-7121</code> and is not how CIMT orders are set up.</p>
+        </div>
+      </div>
+
+      <div class="step critical" data-step="3">
+        <div class="step-header">
+          <div class="step-num">3</div>
+          <div class="step-title-block">
+            <div class="step-title">⚠ REQUIRED — Add the $25 S&amp;H item to your cart</div>
+            <div class="step-meta">Mandatory action #2 · This is why orders got cancelled</div>
+          </div>
+          <span class="chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Shipping is <strong>a separate product</strong>, not a checkout calculation. The vendor named the category "Richardson Hat S&amp;H" — <strong>ignore the hat reference, it applies to all shipped orders</strong>.</p>
+
+          <p style="margin: 14px 0 10px; font-weight: 600;">How to add it:</p>
+          <ol>
+            <li>Click the button below. It takes you straight to the S&amp;H product page on the vendor site.</li>
+            <li>On that page, click the vendor's <strong>"Add to Shopping Cart"</strong> button.</li>
+            <li>Add quantity <strong>1 per order</strong> — not per shirt.</li>
+          </ol>
+
+          <a class="btn-link pulse" href="https://www.companycasuals.com/AVF/b.jsp?id=23252841&parentId=9015989" target="_blank" rel="noopener">→ Open S&amp;H product page</a>
+
+          <div class="callout" style="margin-top: 14px;">
+            <strong>Confirmed price: $25.00</strong> — stated on the S&amp;H product page as a "one time fee" covering shipping the order to you. <em>(The homepage banner says $21.50; that figure appears to be outdated. The product page is authoritative. Confirm with the vendor if in doubt.)</em>
+          </div>
+
+          <p style="margin-top: 12px; font-size: 13px; color: var(--muted);">Picking up locally instead of shipping? Skip this step but <strong>call the vendor first</strong> to confirm pickup is available.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="4">
+        <div class="step-header">
+          <div class="step-num">4</div>
+          <div class="step-title-block">
+            <div class="step-title">Review cart — 3 line items expected</div>
+            <div class="step-meta">Verify before checkout</div>
+          </div>
+          <span class="chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Your cart should show:</p>
+          <ul>
+            <li>✓ Apparel item(s)</li>
+            <li>✓ <strong>ORCA OFFICIAL LOGO</strong> (one per apparel item, auto-added)</li>
+            <li>✓ <strong>S&amp;H — $25.00</strong> (one per order)</li>
+          </ul>
+          <a class="btn-link" href="https://www.companycasuals.com/AVF/s.jsp?action=view&parentId=1&httpsecure=Y" target="_blank" rel="noopener">View cart →</a>
+          <div class="callout" style="margin-top: 14px;">
+            <strong>If the logo OR S&amp;H is missing → STOP.</strong> Go back to the step that's missing. Submitting without either is what causes cancellations.
+          </div>
+        </div>
+      </div>
+
+      <div class="step" data-step="5">
+        <div class="step-header">
+          <div class="step-num">5</div>
+          <div class="step-title-block">
+            <div class="step-title">Check out &amp; save your confirmation</div>
+            <div class="step-meta">Standard checkout flow</div>
+          </div>
+          <span class="chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Proceed through the vendor's checkout, enter your shipping address, and pay.</p>
+          <p><strong>Save the confirmation email.</strong> If anything goes wrong downstream, that's what you'll send the vendor to sort it out.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======= SIDEBAR ======= -->
+    <aside class="sidebar">
+      <div class="card">
+        <div class="card-title">
+          <span>Progress</span>
+          <button class="reset-btn" onclick="resetProgress()">Reset</button>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="progress-text"><span id="progress-count">0</span> / 5 steps complete</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Pre-Submit Checklist</div>
+        <div class="checklist">
+          <div class="check-row"><input type="checkbox" id="c1"><label for="c1">Apparel item selected (size + color)</label></div>
+          <div class="check-row critical"><input type="checkbox" id="c2"><label for="c2">ORCA OFFICIAL LOGO selected from dropdown</label></div>
+          <div class="check-row critical"><input type="checkbox" id="c3"><label for="c3">$25 S&amp;H item added to cart</label></div>
+          <div class="check-row"><input type="checkbox" id="c4"><label for="c4">Cart shows all 3 line types (item + logo + S&amp;H)</label></div>
+          <div class="check-row"><input type="checkbox" id="c5"><label for="c5">Confirmation email saved</label></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Cost Reference</div>
+        <div class="cost-row"><span>Apparel item</span><code>varies</code></div>
+        <div class="cost-row"><span>ORCA logo (per item)</span><code>included*</code></div>
+        <div class="cost-row"><span>S&amp;H (per order)</span><code>$25.00</code></div>
+        <div class="cost-row total"><span>Shipping line — fixed</span><code>$25.00</code></div>
+        <p style="font-size: 11.5px; color: var(--muted); margin-top: 8px;">* Logo line-item cost appears on cart when added. Confirm pricing with vendor for large orders.</p>
+      </div>
+
+      <div class="emergency">
+        <div class="emergency-title">Something wrong? Call, don't email</div>
+        Deep Woods Embroidery is a single-operator shop. Call for cancellations, re-submissions, stock questions, or pickup arrangements.<br><br>
+        <code>541-773-7121</code>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    CIMT Apparel Order Guide · Built from vendor site content · ORCA OFFICIAL LOGO + $25 S&amp;H required
+  </footer>
+</div>
+
+<script>
+  const steps = document.querySelectorAll('.step');
+  steps.forEach(step => {
+    const header = step.querySelector('.step-header');
+    const num = step.querySelector('.step-num');
+
+    header.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+      step.classList.toggle('collapsed');
+    });
+
+    num.addEventListener('click', (e) => {
+      e.stopPropagation();
+      step.classList.toggle('done');
+      updateProgress();
+    });
+  });
+
+  function updateProgress() {
+    const total = steps.length;
+    const done = document.querySelectorAll('.step.done').length;
+    const pct = (done / total) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-count').textContent = done;
+  }
+
+  function resetProgress() {
+    steps.forEach(s => s.classList.remove('done'));
+    document.querySelectorAll('.checklist input[type="checkbox"]').forEach(cb => cb.checked = false);
+    updateProgress();
+  }
+
+  document.querySelectorAll('.step-num').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.title = 'Click to mark complete';
+  });
+</script>
+</body>
+</html>
